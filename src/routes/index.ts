@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { UserRoutes } from "../modules/users/user.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
-import { ScheduleRoutes } from "../modules/schedules/schedule.route";
-import { BookingsRoutes } from "../modules/bookings/bookings.route";
 import { ServicesRoutes } from "../modules/service/service.route";
 import { ServicesTypeRoutes } from "../modules/serviceType/serviceType.route";
 
@@ -26,10 +24,7 @@ const modules = [
     path: "/service-type",
     route: ServicesTypeRoutes,
   },
-  {
-    path: "/bookings",
-    route: BookingsRoutes,
-  },
+
 
 ];
 
