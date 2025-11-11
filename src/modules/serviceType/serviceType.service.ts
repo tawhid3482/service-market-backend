@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 
-
 const prisma = new PrismaClient();
 
 const createServiceType = async (data: any) => {
@@ -12,14 +11,25 @@ const createServiceType = async (data: any) => {
 
 const getAllServiceType = async () => {
   const result = await prisma.serviceType.findMany({
-  include:{
-    propertyType:true
-  }
+    include: {
+      propertyType: {
+        include: {
+          propertyItems: true,
+          _count: {
+            select: { propertyItems: true },
+          },
+        },
+      },
+      _count: {
+        select: { propertyType: true },
+      },
+    },
   });
+
   return result;
 };
 
 export const ServicesTypeService = {
   createServiceType,
-  getAllServiceType
+  getAllServiceType,
 };
