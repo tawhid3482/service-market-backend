@@ -21,7 +21,7 @@ const getAllServiceType = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "service Type retrieved successfully",
+    message: "Button service Type retrieved successfully",
     data: result,
   });
 });

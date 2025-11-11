@@ -12,7 +12,9 @@ const createServiceType = async (data: any) => {
 
 const getAllServiceType = async () => {
   const result = await prisma.serviceType.findMany({
-  
+  include:{
+    propertyType:true
+  }
   });
   return result;
 };
