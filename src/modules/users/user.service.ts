@@ -25,7 +25,7 @@ const createUser = async (data: {
       name: data.name,
       email: data.email,
       password: hashedPassword,
-      role: "TRAINEE",
+      role: "ADMIN",
     },
   });
   // hide password

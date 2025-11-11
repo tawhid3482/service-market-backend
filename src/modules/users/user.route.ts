@@ -11,6 +11,6 @@ router.post(
   UserController.createUser
 );
 
-router.get("/me", auth("ADMIN", "TRAINEE", "TRAINER"), UserController.getMe);
+router.get("/me", auth("ADMIN"), UserController.getMe);
 
 export const UserRoutes = router;
