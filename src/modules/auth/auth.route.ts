@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { validateRequest } from "../../middlewares/validateRequest";
-import { loginUserSchema } from "./auth.validation";
-import { AuthController } from "./auth.controller";
+import { checkPhoneHandler, loginHandler, registerHandler, sendOtpHandler, verifyOtpHandler } from "./auth.controller";
 
 const router = Router();
 
-router.post(
-  "/login",
-  validateRequest(loginUserSchema),
-  AuthController.loginUser
-);
+router.post("/send-otp", sendOtpHandler);
+router.post("/verify-otp", verifyOtpHandler);
+router.post("/check-phone", checkPhoneHandler);
+router.post("/register", registerHandler);
+router.post("/login", loginHandler);
+
 export const AuthRoutes = router;

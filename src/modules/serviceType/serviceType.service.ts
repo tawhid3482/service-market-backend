@@ -15,13 +15,7 @@ const getAllServiceType = async () => {
       propertyType: {
         include: {
           propertyItems: true,
-          _count: {
-            select: { propertyItems: true },
-          },
         },
-      },
-      _count: {
-        select: { propertyType: true },
       },
     },
   });
