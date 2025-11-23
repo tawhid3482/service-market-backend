@@ -15,7 +15,7 @@ validateRequest(BookingSchema),
 
 router.get("/", BookingController.getAllBooking);
 router.get("/:id", BookingController.getSingleBooking);
-// router.patch("/:id", BookingController.updateBooking);
+router.patch("/:id", BookingController.updateBooking);
 router.delete("/:id", BookingController.deleteBooking);
 
 export const BookingsRoutes = router;

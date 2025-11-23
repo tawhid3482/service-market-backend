@@ -18,7 +18,39 @@ const getAllService = async () => {
   return result;
 };
 
+const getSingleService = async (id:string) => {
+  const result = await prisma.service.findUnique({
+    where:{
+      id
+    }
+  });
+  return result;
+};
+
+const DeleteService = async (id:string) => {
+  const result = await prisma.service.delete({
+    where:{
+      id
+    }
+  });
+  return result;
+};
+
+const updateService = async (id: string, data: any) => {
+  const result = await prisma.service.update({
+    where: { id },
+    data: data, 
+  });
+
+  return result;
+};
+
+
 export const ServicesService = {
   createService,
-  getAllService
+  getAllService,
+  getSingleService,
+  DeleteService,
+  updateService
+  
 };

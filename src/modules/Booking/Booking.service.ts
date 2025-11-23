@@ -32,9 +32,20 @@ const DeleteBooking = async (id:string) => {
   return result;
 };
 
+const updateBooking = async (id: string, data: any) => {
+  const result = await prisma.booking.update({
+    where: { id },
+    data: data, 
+  });
+
+  return result;
+};
+
+
 export const BookingServices = {
   createBooking,
   getAllBooking,
   getSingleBooking,
-  DeleteBooking
+  DeleteBooking,
+  updateBooking
 };
