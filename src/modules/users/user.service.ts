@@ -5,11 +5,7 @@ import { envVars } from "../../config/env";
 
 const prisma = new PrismaClient();
 
-const createUser = async (data: {
-  name: string;
-  email: string;
-  password: string;
-}) => {
+const createUser = async (data:any) => {
   const existing = await prisma.user.findUnique({
     where: { email: data.email },
   });
@@ -22,9 +18,11 @@ const createUser = async (data: {
 
   const user = await prisma.user.create({
     data: {
-      name: data.name,
+      fullName: data.name,
+      address:data.address,
       email: data.email,
       password: hashedPassword,
+      phone:data.phone,
       role: "ADMIN",
     },
   });

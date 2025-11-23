@@ -4,6 +4,7 @@ import { checkPhoneHandler, loginHandler, registerHandler, sendOtpHandler, verif
 const router = Router();
 
 router.post("/send-otp", sendOtpHandler);
+
 router.post("/verify-otp", verifyOtpHandler);
 router.post("/check-phone", checkPhoneHandler);
 router.post("/register", registerHandler);

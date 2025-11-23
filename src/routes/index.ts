@@ -5,6 +5,7 @@ import { ServicesRoutes } from "../modules/service/service.route";
 import { ServicesTypeRoutes } from "../modules/serviceType/serviceType.route";
 import { PropertyTypeRoutes } from "../modules/propertyType/propertyType.route";
 import { PropertyItemsRoutes } from "../modules/propertyItems/propertyItems.route";
+import { BookingsRoutes } from "../modules/Booking/Booking.route";
 
 
 export const router = Router();
@@ -33,6 +34,10 @@ const modules = [
   {
     path: "/property-items",
     route: PropertyItemsRoutes,
+  },
+  {
+    path: "/booking",
+    route: BookingsRoutes,
   },
 
 

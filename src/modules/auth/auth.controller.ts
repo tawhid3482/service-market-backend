@@ -3,6 +3,7 @@
 import { Request, Response } from "express";
 import { otpService } from "./otp.service";
 import { authService } from "./auth.service";
+import { ConversationRelaySession } from "twilio/lib/twiml/VoiceResponse";
 
 
 export async function sendOtpHandler(req: Request, res: Response) {
@@ -11,6 +12,7 @@ export async function sendOtpHandler(req: Request, res: Response) {
     if (!phone) return res.status(400).json({ message: "Phone number is required" });
 
     const result = await otpService.sendOTPToBoth(phone);
+    console.log(result)
     if (result.success) {
       // Extract method, testMode, and testOtp from whatsapp result if available
       const whatsappResult = result.results?.whatsapp;

@@ -4,15 +4,15 @@ import twilio from "twilio";
 const accountSid = process.env.TWILIO_ACCOUNT_SID || "";
 const authToken = process.env.TWILIO_AUTH_TOKEN || "";
 const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER || ""; // SMS sender
-const TWILIO_WHATSAPP_PHONE_NUMBER = process.env.TWILIO_WHATSAPP_PHONE_NUMBER || ""; // WhatsApp sender
+// const TWILIO_WHATSAPP_PHONE_NUMBER = process.env.TWILIO_WHATSAPP_PHONE_NUMBER || ""; // WhatsApp sender
 
 // Twilio client
 const client = twilio(accountSid, authToken);
 
 // Ensure WhatsApp number has proper prefix
-const whatsappFrom = TWILIO_WHATSAPP_PHONE_NUMBER.startsWith("whatsapp:")
-  ? TWILIO_WHATSAPP_PHONE_NUMBER
-  : `whatsapp:${TWILIO_WHATSAPP_PHONE_NUMBER}`;
+const whatsappFrom = TWILIO_PHONE_NUMBER.startsWith("whatsapp:")
+  ? TWILIO_PHONE_NUMBER
+  : `whatsapp:${TWILIO_PHONE_NUMBER}`;
 
 // Test config
 const TEST_MODE = process.env.TEST_MODE === "true";

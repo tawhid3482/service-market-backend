@@ -26,8 +26,8 @@ model Service {
   des1         String
   des2         String
   des3         String
-  rated        String
-  totalBooking String
+  rated        String?
+  totalBooking String?
   serviceType  ServiceType[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -84,17 +84,43 @@ model PropertyItem {
 }
 
 model Booking {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  serviceDetails Json?
-  serviceCharge  Float
-  subTotal       Float
-  vat            Float    @default(0)
-  totalPay       Float
-  verified       Boolean  @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  serviceName   String
+  date          String
+  time          String
+  address       String
+  offer         String
+  paymentMethod Method?
+  serviceCharge Float
+  serviceFee    Float
+  discount      Float
+  subTotal      Float
+  vat           Float   @default(0)
+  totalPay      Float
+  status BookingStatus @default(Upcoming)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("bookings")
+}
+
+enum BookingStatus {
+  Pending
+  Upcoming
+  Delivered
+  Cancelled
+  Unpaid
+  OnHold
+}
+
+enum Method {
+  Card
+  CashOnDelivery
+}
+
+model address {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 }
 
 enum Role {

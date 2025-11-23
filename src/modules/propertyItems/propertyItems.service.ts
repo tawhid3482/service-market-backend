@@ -10,13 +10,36 @@ const createPropertyItems = async (data: any) => {
 };
 
 const getAllPropertyItems = async () => {
-  const result = await prisma.propertyItem.findMany({});
+  const result = await prisma.propertyItem.findMany({
+    include:{
+      propertyType:{
+        include:{
+          serviceType:{
+            include:{
+              service:true
+            }
+          }
+        }
+      }
+    }
+  });
   return result;
 };
 
 const getSinglePropertyItems = async (id:string) => {
   const result = await prisma.propertyItem.findUnique({
-    where:{id}
+    where:{id},
+    include:{
+      propertyType:{
+        include:{
+          serviceType:{
+            include:{
+              service:true
+            }
+          }
+        }
+      }
+    }
   });
   return result;
 };
