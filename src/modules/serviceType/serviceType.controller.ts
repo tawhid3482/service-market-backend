@@ -26,7 +26,45 @@ const getAllServiceType = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleServiceType = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const result = await ServicesTypeService.getSingleServiceType(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Single Service Type retrieved successfully",
+    data: result,
+  });
+});
+
+const deleteServiceType = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const result = await ServicesTypeService.DeleteServiceType(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Service Type deleted successfully",
+    data: result,
+  });
+});
+
+const updateServiceType = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const result = await ServicesTypeService.updateServiceType(id, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Service Type updated successfully",
+    data: result,
+  });
+});
+
 export const ServiceTypeController = {
   createServiceType,
   getAllServiceType,
+  getSingleServiceType,
+  deleteServiceType,
+  updateServiceType,
 };

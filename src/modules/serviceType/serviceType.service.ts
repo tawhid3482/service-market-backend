@@ -12,8 +12,35 @@ const createServiceType = async (data: any) => {
 const getAllServiceType = async () => {
   const result = await prisma.serviceType.findMany({
     include: {
-      service: true
+      service: true,
     },
+  });
+
+  return result;
+};
+
+const getSingleServiceType = async (id: string) => {
+  const result = await prisma.serviceType.findUnique({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
+const DeleteServiceType = async (id: string) => {
+  const result = await prisma.serviceType.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
+const updateServiceType = async (id: string, data: any) => {
+  const result = await prisma.serviceType.update({
+    where: { id },
+    data: data,
   });
 
   return result;
@@ -22,4 +49,7 @@ const getAllServiceType = async () => {
 export const ServicesTypeService = {
   createServiceType,
   getAllServiceType,
+  getSingleServiceType,
+  DeleteServiceType,
+  updateServiceType,
 };
