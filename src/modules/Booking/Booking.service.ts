@@ -11,7 +11,11 @@ const createBooking = async (data: any) => {
 };
 
 const getAllBooking = async () => {
-  const result = await prisma.booking.findMany();
+  const result = await prisma.booking.findMany({
+    orderBy:{
+      createdAt:"desc"
+    }
+  });
   return result;
 };
 

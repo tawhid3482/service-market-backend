@@ -68,9 +68,9 @@ model PropertyItem {
   image          String
   title          String
   description    String
-  price          String
-  serviceCharge  String       @default("0")
-  vat            String       @default("0")
+  price          Int
+  serviceCharge  Int       @default(0)
+  vat            Int       @default(0)
   propertyType   PropertyType @relation(fields: [propertyTypeId], references: [id])
   propertyTypeId String       @db.ObjectId
   feature1       String?
