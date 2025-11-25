@@ -27,14 +27,46 @@ const getSingleService = async (id:string) => {
   return result;
 };
 
-const DeleteService = async (id:string) => {
-  const result = await prisma.service.delete({
-    where:{
-      id
-    }
+const DeleteService = async (id: string) => {
+  // 1. find all serviceTypes under this service
+  const serviceTypes = await prisma.serviceType.findMany({
+    where: { serviceId: id },
+    select: { id: true },
   });
+
+  const serviceTypeIds = serviceTypes.map(st => st.id);
+
+  // 2. find all propertyTypes under these serviceTypes
+  const propertyTypes = await prisma.propertyType.findMany({
+    where: { serviceTypeId: { in: serviceTypeIds } },
+    select: { id: true },
+  });
+
+  const propertyTypeIds = propertyTypes.map(pt => pt.id);
+
+  // 3. delete all propertyItems
+  await prisma.propertyItem.deleteMany({
+    where: { propertyTypeId: { in: propertyTypeIds } },
+  });
+
+  // 4. delete all propertyTypes
+  await prisma.propertyType.deleteMany({
+    where: { serviceTypeId: { in: serviceTypeIds } },
+  });
+
+  // 5. delete all serviceTypes
+  await prisma.serviceType.deleteMany({
+    where: { serviceId: id },
+  });
+
+  // 6. finally delete the service
+  const result = await prisma.service.delete({
+    where: { id },
+  });
+
   return result;
 };
+
 
 const updateService = async (id: string, data: any) => {
   const result = await prisma.service.update({

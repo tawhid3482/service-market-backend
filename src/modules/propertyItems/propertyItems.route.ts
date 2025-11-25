@@ -11,5 +11,7 @@ router.post(
 
 router.get("/", PropertyItemsController.getAllPropertyItems);
 router.get("/:id", PropertyItemsController.getSinglePropertyItems);
+router.delete("/delete/:id", PropertyItemsController.deletePropertyItems);
+router.patch("/update/:id", PropertyItemsController.updatePropertyItems);
 
 export const PropertyItemsRoutes = router;

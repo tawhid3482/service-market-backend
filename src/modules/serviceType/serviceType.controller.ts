@@ -25,6 +25,16 @@ const getAllServiceType = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllServiceTypeForDashboard = catchAsync(async (req: Request, res: Response) => {
+  const result = await ServicesTypeService.getServiceTypeForDashboard();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Button service Type retrieved successfully",
+    data: result,
+  });
+});
 
 const getSingleServiceType = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
@@ -67,4 +77,5 @@ export const ServiceTypeController = {
   getSingleServiceType,
   deleteServiceType,
   updateServiceType,
+  getAllServiceTypeForDashboard
 };

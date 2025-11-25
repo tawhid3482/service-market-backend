@@ -12,6 +12,19 @@ const createServiceType = async (data: any) => {
 const getAllServiceType = async () => {
   const result = await prisma.serviceType.findMany({
     include: {
+      propertyType: {
+        include: {
+          propertyItems: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+const getServiceTypeForDashboard = async () => {
+  const result = await prisma.serviceType.findMany({
+    include: {
       service: true,
     },
   });
@@ -29,13 +42,31 @@ const getSingleServiceType = async (id: string) => {
 };
 
 const DeleteServiceType = async (id: string) => {
-  const result = await prisma.serviceType.delete({
+  const propertyTypes = await prisma.propertyType.findMany({
+    where: { serviceTypeId: id },
+    select: { id: true },
+  });
+
+  const propertyTypeIds = propertyTypes.map((pt) => pt.id);
+
+  await prisma.propertyItem.deleteMany({
     where: {
-      id,
+      propertyTypeId: { in: propertyTypeIds },
     },
   });
+
+  await prisma.propertyType.deleteMany({
+    where: { serviceTypeId: id },
+  });
+
+  // Step 4: এখন ServiceType delete হবে (safe)
+  const result = await prisma.serviceType.delete({
+    where: { id },
+  });
+
   return result;
 };
+
 
 const updateServiceType = async (id: string, data: any) => {
   const result = await prisma.serviceType.update({
@@ -52,4 +83,5 @@ export const ServicesTypeService = {
   getSingleServiceType,
   DeleteServiceType,
   updateServiceType,
+  getServiceTypeForDashboard
 };

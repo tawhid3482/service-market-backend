@@ -12,5 +12,7 @@ router.post(
 );
 
 router.get("/", PropertyTypeController.getAllPropertyType);
+router.delete("/delete/:id", PropertyTypeController.deletePropertyType);
+router.patch("/update/:id", PropertyTypeController.updatePropertyType);
 
 export const PropertyTypeRoutes = router;

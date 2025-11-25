@@ -12,32 +12,47 @@ const createPropertyType = async (data: any) => {
 const getAllPropertyType = async () => {
   const result = await prisma.propertyType.findMany({
     include: {
-      _count: {
-        select: {
-          propertyItems: true,
-        },
-      },
+      serviceType:{
+        include:{
+          service:true
+        }
+      }
     },
   });
 
-  // Optional: যদি তুমি চাই _count না থেকে একটা clean key propertyItemCount দিতে
-  const formatted = result.map((item) => ({
-    id: item.id,
-    image: item.image,
-    title: item.title,
-    description: item.description,
-    startFrom: item.startFrom,
-    serviceTypeId: item.serviceTypeId,
-    createdAt: item.createdAt,
-    updatedAt: item.updatedAt,
-    propertyItemCount: item._count.propertyItems,
-  }));
 
-  return formatted;
+
+  return result;
 };
+
+
+const DeletePropertyType = async (id: string) => {
+  await prisma.propertyItem.deleteMany({
+    where: { propertyTypeId: id },
+  });
+
+  const result = await prisma.propertyType.delete({
+    where: { id },
+  });
+
+  return result;
+};
+
+
+const updatePropertyType = async (id: string, data: any) => {
+  const result = await prisma.serviceType.update({
+    where: { id },
+    data: data,
+  });
+
+  return result;
+};
+
 
 
 export const PropertyTypeServices = {
   createPropertyType,
   getAllPropertyType,
+  DeletePropertyType,
+  updatePropertyType
 };
