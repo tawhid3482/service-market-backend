@@ -31,17 +31,17 @@ const getAllDateTime = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getSingleDateTime = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id as string;
-  const result = await DateTimeService.getSingleDateTime(id);
+// const getSingleDateTime = catchAsync(async (req: Request, res: Response) => {
+//   const id = req.params.id as string;
+//   const result = await DateTimeService.getSingleDateTime(id);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "DateTime retrieved successfully",
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: "DateTime retrieved successfully",
+//     data: result,
+//   });
+// });
 const deleteDateTime = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const result = await DateTimeService.DeleteDateTime(id);
@@ -69,7 +69,7 @@ const updateDateTime = catchAsync(async (req: Request, res: Response) => {
 export const DateTimeController = {
   createDateTime,
   getAllDateTime,
-  getSingleDateTime,
+  // getSingleDateTime,
   deleteDateTime,
   updateDateTime,
 };

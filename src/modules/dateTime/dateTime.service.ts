@@ -22,19 +22,30 @@ const createDateTime = async (startDate: string, endDate: string, timeSlots: str
   return result;
 };
 
+
 const getAllDateTime = async () => {
-  const result = await prisma.dateTime.findMany();
+  const today = new Date();
+  const todayStr = today.toISOString().split("T")[0]!; // ✅ non-null assertion
+
+  // 1️⃣ Delete all past dates
+  await prisma.dateTime.deleteMany({
+    where: {
+      date: {
+        lt: todayStr,
+      },
+    },
+  });
+
+  // 2️⃣ Get remaining dates serially
+  const result = await prisma.dateTime.findMany({
+    orderBy: {
+      date: "asc",
+    },
+  });
+
   return result;
 };
 
-const getSingleDateTime = async (id: string) => {
-  const result = await prisma.dateTime.findUnique({
-    where: {
-      id,
-    },
-  });
-  return result;
-};
 
 const DeleteDateTime = async (id: string) => {
   const result = await prisma.dateTime.delete({
@@ -55,7 +66,7 @@ const updateDateTime = async (id: string, data: any) => {
 export const DateTimeService = {
   createDateTime,
   getAllDateTime,
-  getSingleDateTime,
+  // getSingleDateTime,
   DeleteDateTime,
   updateDateTime,
 };

@@ -12,7 +12,7 @@ router.post(
 );
 
 router.get("/", DateTimeController.getAllDateTime);
-router.get("/:id", DateTimeController.getSingleDateTime);
+// router.get("/:id", DateTimeController.getSingleDateTime);
 router.delete("/delete/:id", DateTimeController.deleteDateTime);
 router.patch("/update/:id", DateTimeController.updateDateTime);
 
