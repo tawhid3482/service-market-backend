@@ -40,7 +40,7 @@ const DeletePropertyType = async (id: string) => {
 
 
 const updatePropertyType = async (id: string, data: any) => {
-  const result = await prisma.serviceType.update({
+  const result = await prisma.propertyType.update({
     where: { id },
     data: data,
   });

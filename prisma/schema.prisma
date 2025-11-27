@@ -69,8 +69,8 @@ model PropertyItem {
   title          String
   description    String
   price          Int
-  serviceCharge  Int       @default(0)
-  vat            Int       @default(0)
+  serviceCharge  Int          @default(0)
+  vat            Int          @default(0)
   propertyType   PropertyType @relation(fields: [propertyTypeId], references: [id])
   propertyTypeId String       @db.ObjectId
   feature1       String?
@@ -84,7 +84,7 @@ model PropertyItem {
 }
 
 model Booking {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
   serviceName   String
   date          String
   time          String
@@ -95,14 +95,23 @@ model Booking {
   serviceFee    Float
   discount      Float
   subTotal      Float
-  vat           Float   @default(0)
+  vat           Float         @default(0)
   totalPay      Float
-  status BookingStatus @default(Upcoming)
+  status        BookingStatus @default(Upcoming)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("bookings")
+}
+
+model dateTime {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  date String
+  time String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum BookingStatus {

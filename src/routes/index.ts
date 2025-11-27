@@ -6,6 +6,7 @@ import { ServicesTypeRoutes } from "../modules/serviceType/serviceType.route";
 import { PropertyTypeRoutes } from "../modules/propertyType/propertyType.route";
 import { PropertyItemsRoutes } from "../modules/propertyItems/propertyItems.route";
 import { BookingsRoutes } from "../modules/Booking/Booking.route";
+import { DateTimeRoutes } from "../modules/dateTime/date.route";
 
 
 export const router = Router();
@@ -38,6 +39,10 @@ const modules = [
   {
     path: "/booking",
     route: BookingsRoutes,
+  },
+  {
+    path: "/date-time",
+    route: DateTimeRoutes,
   },
 
 
