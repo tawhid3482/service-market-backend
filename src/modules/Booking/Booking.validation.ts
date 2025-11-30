@@ -16,14 +16,13 @@ export const MethodEnum = z.enum([
 
 export const BookingSchema = z.object({
   serviceName: z.string().min(1, "Service name is required"),
-  date: z.string().min(1, "Date is required"),
-  time: z.string().min(1, "Time is required"),
-  address: z.string().min(1, "Address is required"),
-  offer: z.string().min(1, "Offer is required"),
+  date: z.string(),
+  time: z.string(),
+  address: z.string(),
+  offer: z.string(),
 
   paymentMethod: MethodEnum.optional(),
 
-  serviceCharge: z.number().nonnegative(),
   serviceFee: z.number().nonnegative(),
   discount: z.number().nonnegative(),
   subTotal: z.number().nonnegative(),

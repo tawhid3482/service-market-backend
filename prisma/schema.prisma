@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  phone            String    @unique
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  phone            String   @unique
   fullName         String?
-  email            String?   @unique
+  email            String?  @unique
   address          Json?
   password         String?
-  registeredViaOtp Boolean   @default(false)
-  role             String    @default("user")
-  createdAt        DateTime  @default(now())
-  bookings         Booking[]
+  registeredViaOtp Boolean  @default(false)
+  role             String   @default("user")
+  createdAt        DateTime @default(now())
+  // bookings         Booking[]
 }
 
 model Service {
@@ -60,6 +60,7 @@ model PropertyType {
   propertyItems PropertyItem[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  bookings      Booking[]
 
   @@map("property_types")
 }
@@ -85,22 +86,23 @@ model PropertyItem {
 }
 
 model Booking {
-  id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  serviceName   String
-  date          String
-  time          String
-  address       String
-  offer         String
-  paymentMethod Method?
-  serviceCharge Float
-  serviceFee    Float
-  discount      Float
-  subTotal      Float
-  vat           Float         @default(0)
-  totalPay      Float
-  status        BookingStatus @default(Upcoming)
-  userId        String        @db.ObjectId
-  user          User          @relation(fields: [userId], references: [id])
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  serviceName    String
+  date           String
+  time           String
+  address        String
+  offer          String
+  propertyItemid String[]        @db.ObjectId
+  propertyItems  PropertyType  @relation(fields: [propertyItemid], references: [id])
+  paymentMethod  Method?
+  serviceFee     Float
+  discount       Float
+  subTotal       Float
+  vat            Float         @default(0)
+  totalPay       Float
+  status         BookingStatus @default(Upcoming)
+  // userId        String        @db.ObjectId
+  // user          User          @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

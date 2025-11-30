@@ -12,37 +12,14 @@ const createBooking = async (data: any) => {
 
 const getAllBooking = async () => {
   const result = await prisma.booking.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy:{
+      createdAt:"desc"
+    }
   });
   return result;
 };
-const getAllUserBooking = async (id: string) => {
-  // Check if user exists
-  const user = await prisma.user.findUnique({
-    where: { id },
-  });
 
-  if (!user) {
-    throw new AppError(404, "User not found");
-  }
-
-  // Find only this user's bookings
-  const result = await prisma.booking.findMany({
-    where: {
-      userId: id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  return result;
-};
-
-
-const getSingleBooking = async (id: string) => {
+const getSingleBooking = async (id:string) => {
   const result = await prisma.booking.findUnique({
     where: {
       id,
@@ -74,5 +51,5 @@ export const BookingServices = {
   getSingleBooking,
   DeleteBooking,
   updateBooking,
-  getAllUserBooking
+  // getAllUserBooking
 };
