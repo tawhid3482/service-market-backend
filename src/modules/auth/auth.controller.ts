@@ -11,11 +11,11 @@ export async function sendOtpHandler(req: Request, res: Response) {
     const { phone } = req.body;
     if (!phone) return res.status(400).json({ message: "Phone number is required" });
 
-    const result = await otpService.sendOTPToBoth(phone);
+    const result = await otpService.sendOTPWithFallback(phone);
     console.log(result)
     if (result.success) {
       // Extract method, testMode, and testOtp from whatsapp result if available
-      const whatsappResult = result.results?.whatsapp;
+      const whatsappResult = result.result?.message;
       const method = whatsappResult?.method || "unknown";
       const testMode = whatsappResult?.testMode;
       const testOtp = whatsappResult?.testOtp;

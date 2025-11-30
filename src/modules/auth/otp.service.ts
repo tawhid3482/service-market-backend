@@ -4,7 +4,6 @@ import twilio from "twilio";
 const accountSid = process.env.TWILIO_ACCOUNT_SID || "";
 const authToken = process.env.TWILIO_AUTH_TOKEN || "";
 const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER || ""; // SMS sender
-// const TWILIO_WHATSAPP_PHONE_NUMBER = process.env.TWILIO_WHATSAPP_PHONE_NUMBER || ""; // WhatsApp sender
 
 // Twilio client
 const client = twilio(accountSid, authToken);
@@ -88,26 +87,43 @@ export async function sendSMSOTP(rawPhone: string) {
   }
 }
 
-// Send OTP to both WhatsApp and SMS at the same time
-export async function sendOTPToBoth(rawPhone: string) {
+// Send OTP with fallback: WhatsApp → SMS
+export async function sendOTPWithFallback(rawPhone: string) {
   const formatted = normalizePhone(rawPhone);
-
-  // Generate OTP and store
   const otp = TEST_MODE ? TEST_OTP : generateOTP();
   const expiresAt = Date.now() + 5 * 60 * 1000;
+
   otpStore.set(formatted, { otp, expiresAt, attempts: 0 });
 
-  // Send WhatsApp
+  // Try WhatsApp first
   const wa = await sendWhatsAppOTP(formatted);
-  // Send SMS
+  if (wa.success) {
+    return {
+      success: true,
+      method: "whatsapp",
+      message: "OTP sent via WhatsApp",
+      otp,
+      result: wa,
+    };
+  }
+
+  // If WhatsApp fails, fallback to SMS
   const sms = await sendSMSOTP(formatted);
+  if (sms.success) {
+    return {
+      success: true,
+      method: "sms",
+      message: "WhatsApp failed, OTP sent via SMS",
+      otp,
+      result: sms,
+    };
+  }
 
-  const success = wa.success || sms.success;
-
+  // If both fail
   return {
-    success,
-    results: { whatsapp: wa, sms },
-    message: success ? "OTP sent via WhatsApp and/or SMS" : "Failed to send OTP via both",
+    success: false,
+    method: "none",
+    message: "Failed to send OTP via WhatsApp and SMS",
   };
 }
 
@@ -150,7 +166,7 @@ setInterval(cleanExpiredOTPs, 5 * 60 * 1000);
 export const otpService = {
   sendWhatsAppOTP,
   sendSMSOTP,
-  sendOTPToBoth,
+  sendOTPWithFallback,
   verifyOTP,
   cleanExpiredOTPs,
   generateOTP,
